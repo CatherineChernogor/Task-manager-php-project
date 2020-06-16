@@ -22,7 +22,6 @@ abstract class BaseModel
     public function save()
     {
         if ($this->validate()) {
-            echo 'save';
             $sql = static::get_pdo()->prepare('INSERT INTO `' . static::$table . '` (`' . implode('`, `', static::$attributes) . '`) VALUES (:' . implode(', :', static::$attributes) . ');');
 
             $data = [];
@@ -30,13 +29,9 @@ abstract class BaseModel
             foreach (static::$attributes as $attribute) {
                 $data[$attribute] = $this->$attribute;
             }
-            var_dump($data);
-            var_dump($sql);
 
             $sql->execute($data);
 
-            var_dump($sql->execute($data));
-            var_dump($sql->rowCount);
             return $sql->rowCount() === 1;
         }
 
@@ -112,7 +107,6 @@ abstract class BaseModel
             $this->$attribute = array_get($array, $attribute);
         }
     }
-
 
     public static function get_all()
     {

@@ -13,10 +13,11 @@ class Order extends BaseModel
 
 
     protected static $types = [
-        1 => 'Встреча',
-        2 => 'Звонок',
-        3 => 'Совещание',
-        4 => 'Дело',
+        1 => 'Дело',
+        2 => 'Встреча',
+        3 => 'Звонок',
+        4 => 'Совещание',
+
     ];
 
     protected static $table = 'Orders';
@@ -38,25 +39,20 @@ class Order extends BaseModel
     public function validate()
     {
         if (empty($this->type)) {
-            $this->errors['type'] = 'Не введено type';
-            echo 'type';
+            $this->errors['type'] = 'Не выбран тип';
         }
 
         if (empty($this->date_start)) {
-            $this->errors['date_start'] = 'Не введен date_start';
-            echo 'date_start';
+            $this->errors['date_start'] = 'Не выбрано время начала';
         }
 
         if (empty($this->subject)) {
-            $this->errors['subject'] = 'Не выбрана тема';
-            echo 'subject';
+            $this->errors['subject'] = 'Не введена тема';
         }
         if (empty($this->date_end)) {
-            $this->errors['date_end'] = 'Не выбрана date_end';
-            echo 'date_end';
+            $this->errors['date_end'] = 'Не выбрано время конца';
         }
-        var_dump($this);
-        var_dump(!$this->has_errors());
+
         return !$this->has_errors();
     }
 

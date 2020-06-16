@@ -20,7 +20,7 @@ class Database
             ]);
 
             static::$_pdo = new PDO(
-                'mysql:host=' . $config['host'] . ';dbname=' . $config['dbname'],
+                'mysql:host=' . $config['host'] . ';dbname=' . $config['dbname'] . ';charset=utf8',
                 $config['user'],
                 $config['password']
             );
