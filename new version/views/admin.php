@@ -2,10 +2,17 @@
 
 <div class="container" id="orderAdminApp">
 
-    <h1>Страница администратора</h1>
+    <h1>My schedule</h1>
 
     <div class="row">
         <div class="col-md-12" v-cloak v-if="!order">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-outline-success" v-on:click="overdue()">Overdue</button>
+                <button type="button" class="btn btn-outline-success" v-on:click="current()">Current</button>
+                <button type="button" class="btn btn-outline-success" v-on:click="done()">Done</button>
+                <button type="button" class="btn btn-outline-success" v-on:click="all()">All</button>
+
+            </div>
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
@@ -43,7 +50,7 @@
             <div class="alert alert-success" v-cloak v-if="message">{{ message }}</div>
             <div class="alert alert-danger" v-cloak v-if="has_errors">Обратите внимание на ошибки</div>
             <form method="POST" action="" onsubmit="return false;" v-on:submit="save">
-            <?php include 'views/partials/form.php'; ?>
+                <?php include 'views/partials/form.php'; ?>
             </form>
         </div>
     </div>
@@ -51,79 +58,137 @@
 </div>
 
 <script type="text/javascript">
+    axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
 
-axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest';
-
-new Vue({
-    el: '#orderAdminApp',
-    data: {
-        order: null,
-        orders: <?= json_encode($orders)?>,
-        types: <?= json_encode(App\Models\Order::list_types()) ?>,
-        has_errors: false,
-        errors: [],
-        message: '',
-        danger_message: '',
-        sending: false
-    },
-    methods: {
-        edit: function(order) {
-            this.errors = [];
-            this.has_errors = false;
-            this.sending = false;
-            this.message = '';
-            this.danger_message = '';
-
-            this.order = order;
+    new Vue({
+        el: '#orderAdminApp',
+        data: {
+            order: null,
+            orders: <?= json_encode($orders) ?>,
+            types: <?= json_encode(App\Models\Order::list_types()) ?>,
+            has_errors: false,
+            errors: [],
+            message: '',
+            danger_message: '',
+            sending: false
         },
-        del: function(order) {
-            if (confirm('Delete event №' + order.id)){
-                order.deleting = true;
-                axios.delete('/admin.php?id=' + order.id).then(response => {
-                    this.orders.splice(this.orders.indexOf(order), 1);
-                }).catch(error => {
-                    order.deleting = false;
-                });
-            }
-        },
-        showList: function() {
-            this.order = null;
-        },
-        save: function() {
-            this.errors = [];
-            this.has_errors = false;
-            this.sending = true;
-
-            axios.put('/admin.php?id=' + this.order.id, this.order).then(response => {
+        methods: {
+            edit: function(order) {
+                this.errors = [];
+                this.has_errors = false;
                 this.sending = false;
+                this.message = '';
+                this.danger_message = '';
 
-                if (response.data.message)
-                {
-                    this.message = response.data.message;
+                this.order = order;
+            },
+            del: function(order) {
+                if (confirm('Delete event №' + order.id)) {
+                    order.deleting = true;
+                    axios.delete('/admin.php?id=' + order.id).then(response => {
+                        this.orders.splice(this.orders.indexOf(order), 1);
+                    }).catch(error => {
+                        order.deleting = false;
+                    });
                 }
-            }).catch(error => {
-                this.sending = false;
+            },
+            showList: function() {
+                this.order = null;
+            },
+            save: function() {
+                this.errors = [];
+                this.has_errors = false;
+                this.sending = true;
 
-                if (error.response)
-                {
-                    this.has_errors = true;
-                    this.errors = error.response.data.errors;
-                }
-                else if (error.message)
-                {
-                    switch (error.message)
-                    {
-                        case 'Network Error':
-                            this.danger_message = 'Пропало соединение с сервером. Повторите отправку.';
-                            break;
-                        default:
-                            this.danger_message = error.message;
+                axios.put('/admin.php?id=' + this.order.id, this.order).then(response => {
+                    this.sending = false;
+
+                    if (response.data.message) {
+                        this.message = response.data.message;
                     }
-                }
-            });
+                }).catch(error => {
+                    this.sending = false;
+
+                    if (error.response) {
+                        this.has_errors = true;
+                        this.errors = error.response.data.errors;
+                    } else if (error.message) {
+                        switch (error.message) {
+                            case 'Network Error':
+                                this.danger_message = 'Пропало соединение с сервером. Повторите отправку.';
+                                break;
+                            default:
+                                this.danger_message = error.message;
+                        }
+                    }
+                });
+            },
+
+            current: function() {
+
+                axios.get('').then(response => {
+
+                    let now = new Date();
+                    let orders = response.data.orders.filter(function(line) {
+                        if (Date.parse(line.date_end) > now.getTime() && !line.comment.match(/(done)|(сделан)|(заверш)/iu)) {
+                            return line;
+                        }
+
+                    });
+
+                    this.orders = orders;
+
+                }).catch(error => {
+                    console.log(error);
+                    alert("Error, check console");
+                })
+            },
+            done: function() {
+
+                axios.get('').then(response => {
+
+                    let orders = response.data.orders.filter(function(line) {
+                        if (line.comment.match(/(done)|(сделан)|(заверш)/iu))
+                            return line;
+                    });
+
+                    this.orders = orders;
+
+                }).catch(error => {
+                    console.log(error);
+                    alert("Error, check console");
+                })
+            },
+            all: function() {
+                axios.get('').then(response => {
+                    this.orders = response.data.orders;
+
+                }).catch(error => {
+                    console.log(error);
+                    alert("Error, check console");
+                })
+            },
+            overdue: function() {
+                axios.get('').then(response => {
+
+                    let now = new Date();
+                    let orders = response.data.orders.filter(function(line) {
+                        if (Date.parse(line.date_end) < now.getTime() && !line.comment.match(/(done)|(сделан)|(заверш)/iu)) {
+                            return line;
+                        }
+
+                    });
+
+                    this.orders = orders;
+
+                }).catch(error => {
+                    console.log(error);
+                    alert("Error, check console");
+                })
+            }
+
         }
-    }
-});
+    });
 </script>
 
 <?php include 'views/partials/footer.php'; ?>
