@@ -140,8 +140,11 @@
                     }
                 });
             },
-            isDone: order => {
-                order.comment.match(/(done)|(сделан)|(заверш)|(сдан)/iu) ? true : false;
+            isDone: function(order) {
+                if (order.comment.match(/(done)|(сделан)|(заверш)|(сдан)/iu)  )
+                	return true;
+                else 
+                	return false;
             },
             current: function() {
 
@@ -167,6 +170,7 @@
                 axios.get('').then(response => {
 
                     let orders = response.data.orders.filter(line => {
+                    console.log(line.subject, this.isDone(line));  
                         if (this.isDone(line))
                             return line;
                     });
