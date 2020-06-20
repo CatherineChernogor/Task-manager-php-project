@@ -15,6 +15,22 @@ function array_get($array, $key, $default = '')
     return $default;
 }
 
+function selected_if($condition)
+{
+    if ($condition)
+    {
+        return ' selected';
+    }
+}
+
+function checked_if($condition)
+{
+    if ($condition)
+    {
+        return ' checked';
+    }
+}
+
 
 function view($template, $variables)
 {
@@ -22,4 +38,3 @@ function view($template, $variables)
     include 'views/' . $template . '.php';
 }
 
-session_start();

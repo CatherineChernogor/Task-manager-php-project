@@ -1,12 +1,12 @@
 
 <div class="form-group" v-bind:class="{'has-error': !!errors.subject}">
-    <label>Subject:</label>
+    <label>Тема:</label>
     <input class="form-control" type="text" v-model="order.subject">
     <span class="help-block" v-cloak v-if="errors.subject">{{ errors.subject }}</span>
 </div>
 
 <div class="form-group" v-bind:class="{'has-error': !!errors.type}">
-    <label>Type:</label>
+    <label>Тип:</label>
     <select class="form-control" v-model="order.type">
         <option v-for="type in types" v-bind:value="type">{{ type }}</option>
     </select>
@@ -14,24 +14,24 @@
 </div>
 
 <div class="form-group">
-    <label>Place:</label>
+    <label>Место:</label>
     <input class="form-control" type="text" v-model="order.place">
 </div>
 
 <div class="form-group" v-bind:class="{'has-error': !!errors.date_start}">
-    <label>date_start:</label>
+    <label>Дата начала:</label>
     <input class="form-control" type="datetime-local" v-model="order.date_start">
     <span class="help-block" v-cloak v-if="errors.date_start">{{ errors.date_start }}</span>
 </div>
 
 <div class="form-group" v-bind:class="{'has-error': !!errors.date_end}">
-    <label>date_end:</label>
+    <label>Дата конца:</label>
     <input class="form-control" type="datetime-local" v-model="order.date_end">
     <span class="help-block" v-cloak v-if="errors.date_end">{{ errors.date_end }}</span>
 </div>
 
 <div class="form-group">
-    <label>Comment:</label>
+    <label>Комментарийй:</label>
     <input class="form-control" type="text" v-model="order.comment">
 </div>
 

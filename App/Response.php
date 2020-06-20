@@ -14,6 +14,7 @@ class Response {
     public function status($code)
     {
         header('status: ' . $code);
+        header('HTTP/1.1 ' . $code);
         return $this;
     }
 

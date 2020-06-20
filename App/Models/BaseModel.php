@@ -4,8 +4,7 @@ namespace App\Models;
 
 use App\Database;
 
-abstract class BaseModel
-{
+abstract class BaseModel {
 
     public $id;
 
@@ -14,6 +13,7 @@ abstract class BaseModel
 
     protected $errors = [];
 
+
     public function validate()
     {
         return true;
@@ -21,12 +21,14 @@ abstract class BaseModel
 
     public function save()
     {
-        if ($this->validate()) {
+        if ($this->validate())
+        {
             $sql = static::get_pdo()->prepare('INSERT INTO `' . static::$table . '` (`' . implode('`, `', static::$attributes) . '`) VALUES (:' . implode(', :', static::$attributes) . ');');
 
             $data = [];
 
-            foreach (static::$attributes as $attribute) {
+            foreach (static::$attributes as $attribute)
+            {
                 $data[$attribute] = $this->$attribute;
             }
 
@@ -40,18 +42,21 @@ abstract class BaseModel
 
     public function update()
     {
-        if ($this->id && $this->validate()) {
+        if ($this->id && $this->validate())
+        {
             $set = [];
 
-            foreach (static::$attributes as $attribute) {
+            foreach (static::$attributes as $attribute)
+            {
                 $set[] = '`' . $attribute . '` = :' . $attribute;
             }
 
-            $sql = static::get_pdo()->prepare('UPDATE `' . static::$table . '` SET ' . implode(', ', $set) . '`) WHERE id = :id LIMIT 1;');
+            $sql = static::get_pdo()->prepare('UPDATE `' . static::$table . '` SET ' . implode(', ', $set) . ') WHERE id = :id LIMIT 1;');
 
             $data = [];
 
-            foreach (static::$attributes as $attribute) {
+            foreach (static::$attributes as $attribute)
+            {
                 $data[$attribute] = $this->$attribute;
             }
 
@@ -67,7 +72,8 @@ abstract class BaseModel
 
     public function delete()
     {
-        if ($this->id && $this->validate()) {
+        if ($this->id && $this->validate())
+        {
             $sql = static::get_pdo()->prepare('DELETE FROM `' . static::$table . '` WHERE id = :id LIMIT 1;');
 
             $data = [];
@@ -86,9 +92,10 @@ abstract class BaseModel
         return Database::get_pdo();
     }
 
+
     public function has_errors()
     {
-        return !empty($this->errors);
+        return ! empty($this->errors);
     }
 
     public function get_error($field_name)
@@ -103,10 +110,12 @@ abstract class BaseModel
 
     public function fill($array)
     {
-        foreach (static::$attributes as $attribute) {
+        foreach (static::$attributes as $attribute)
+        {
             $this->$attribute = array_get($array, $attribute);
         }
     }
+
 
     public static function get_all()
     {
@@ -115,7 +124,8 @@ abstract class BaseModel
 
         $objects = [];
 
-        while ($object = $sql->fetchObject(static::class)) {
+        while ($object = $sql->fetchObject(static::class))
+        {
             $objects[] = $object;
         }
 
@@ -129,4 +139,5 @@ abstract class BaseModel
         $object = $sql->fetchObject(static::class);
         return $object;
     }
+
 }

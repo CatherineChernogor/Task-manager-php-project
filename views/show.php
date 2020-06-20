@@ -2,7 +2,7 @@
 
 <div class="container" id="orderApp">
     
-    <h1>Регистрация на конференцию</h1>
+    <h1>Мой календарь: создание записи</h1>
 
     <div class="row">
         <div class="col-md-6">

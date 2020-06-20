@@ -3,8 +3,8 @@ CREATE TABLE `orders` (
     `subject` VARCHAR(255) NOT NULL,
     `type` VARCHAR(255) NOT NULL,
     `place` VARCHAR(255),
-    `date_start` DATETIME NOT NULL,
-    `date_end` DATETIME NOT NULL,
+    `date_start` TIMESTAMP NULL DEFAULT NULL,
+    `date_end` TIMESTAMP NULL DEFAULT NULL,
     `comment` VARCHAR(255),
     PRIMARY KEY (`id`)
 )

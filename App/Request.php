@@ -23,7 +23,7 @@ class Request {
         $this->get_data = $_GET;
         $this->post_data = $_POST;
 
-        if (strpos(getenv('HTTP_CONTENT_TYPE'), 'application/json') !== false)
+        if (strpos(getenv('CONTENT_TYPE'), 'application/json') !== false)
         {
             $this->post_data = json_decode(file_get_contents('php://input'), true);
         }

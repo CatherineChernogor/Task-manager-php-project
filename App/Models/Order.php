@@ -4,23 +4,22 @@ namespace App\Models;
 
 class Order extends BaseModel
 {
+
     public $subject;
     public $type;
     public $place;
     public $date_start;
-    public $comment;
     public $date_end;
-
+    public $comment;
 
     protected static $types = [
-        1 => 'Дело',
-        2 => 'Встреча',
-        3 => 'Звонок',
-        4 => 'Совещание',
-
+        'Дело',
+        'Встреча',
+        'Совещание',
+        'Звонок',
     ];
 
-    protected static $table = 'Orders';
+    protected static $table = 'orders';
 
     protected static $attributes = [
         'subject',
@@ -31,7 +30,8 @@ class Order extends BaseModel
         'comment',
     ];
 
-    public static function getTypes()
+
+    public static function list_types()
     {
         return static::$types;
     }
@@ -43,23 +43,16 @@ class Order extends BaseModel
         }
 
         if (empty($this->date_start)) {
-            $this->errors['date_start'] = 'Не выбрано время начала';
+            $this->errors['date_start'] = 'Не выбрана дата начала';
+        }
+        if (empty($this->date_end)) {
+            $this->errors['date_end'] = 'Не выбрана дата окончания';
         }
 
         if (empty($this->subject)) {
-            $this->errors['subject'] = 'Не введена тема';
-        }
-        if (empty($this->date_end)) {
-            $this->errors['date_end'] = 'Не выбрано время конца';
+            $this->errors['subject'] = 'Не выбрана тема';
         }
 
         return !$this->has_errors();
-    }
-
-    public function fill($array)
-    {
-        foreach (static::$attributes as $attribute) {
-            $this->$attribute = array_get($array, $attribute);
-        }
     }
 }

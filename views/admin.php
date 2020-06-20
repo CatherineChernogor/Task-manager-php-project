@@ -2,24 +2,25 @@
 
 <div class="container" id="orderAdminApp">
 
-    <h1>My schedule</h1>
+    <h1>Мой календарь: расписание</h1>
 
 
     <div class="row">
         <div class="col-md-12" v-cloak v-if="!order">
             <div class="form-inline">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-outline-success" v-on:click="overdue()">Overdue</button>
-                    <button type="button" class="btn btn-outline-success" v-on:click="current()">Current</button>
-                    <button type="button" class="btn btn-outline-success" v-on:click="done()">Done</button>
-                    <button type="button" class="btn btn-outline-success" v-on:click="all()">All</button>
+
+                    <button type="button" class="btn btn-outline-success" v-on:click="all()">Все</button>
+                    <button type="button" class="btn btn-outline-success" v-on:click="overdue()">Просроченные</button>
+                    <button type="button" class="btn btn-outline-success" v-on:click="current()">Текущие</button>
+                    <button type="button" class="btn btn-outline-success" v-on:click="done()">Выполненные</button>
 
                 </div>
 
                 <div class="form-group mx-sm-3 mb-2">
                     <input type="date" id="searchByDateInput" class="form-control">
                 </div>
-                <button type="button" class="btn btn-success mb-2" v-on:click="serchByDate()">Serch</button>
+                <button type="button" class="btn btn-success mb-2" v-on:click="serchByDate()">Найти по дате</button>
 
 
             </div>
@@ -27,12 +28,12 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Subject</th>
-                        <th>Type</th>
-                        <th>Place</th>
-                        <th>Date_start</th>
-                        <th>Date_end</th>
-                        <th>Comment</th>
+                        <th>Тема</th>
+                        <th>Тип</th>
+                        <th>Место</th>
+                        <th>Дата начала</th>
+                        <th>Дата окончания</th>
+                        <th>Комментарий</th>
                         <th></th>
                     </tr>
                 </thead>
