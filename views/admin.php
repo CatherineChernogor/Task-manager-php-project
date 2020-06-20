@@ -46,7 +46,7 @@
                 <tbody>
                     <tr v-for="order in orders" v-bind:class="{'text-muted': order.deleting}">
                         <td class="align-middle">{{ order.id }}</td>
-                        <td><button class="btn btn-link" v-on:click="edit(order)">{{order.subject}}</button></td>
+                        <td><button class="btn btn-link" v-on:click="isDone(order)">{{order.subject}}</button></td>
                         <td class="align-middle">{{ order.type }}</td>
                         <td class="align-middle">{{ order.place }}</td>
                         <td class="align-middle">{{ order.date_start }}</td>
@@ -140,17 +140,19 @@
                     }
                 });
             },
-
+            isDone: order => {
+                order.comment.match(/(done)|(сделан)|(заверш)|(сдан)/iu) ? true : false;
+            },
             current: function() {
 
                 axios.get('').then(response => {
 
                     let now = new Date();
-                    let orders = response.data.orders.filter(function(line) {
-                        if (Date.parse(line.date_end) > now.getTime() && !line.comment.match(/(done)|(сделан)|(заверш)/iu)) {
+                    let orders = response.data.orders.filter(line => {
+
+                        if (Date.parse(line.date_end) > now.getTime() && !this.isDone(line)) {
                             return line;
                         }
-
                     });
 
                     this.orders = orders;
@@ -164,8 +166,8 @@
 
                 axios.get('').then(response => {
 
-                    let orders = response.data.orders.filter(function(line) {
-                        if (line.comment.match(/(done)|(сделан)|(заверш)/iu))
+                    let orders = response.data.orders.filter(line => {
+                        if (this.isDone(line))
                             return line;
                     });
 
@@ -189,8 +191,8 @@
                 axios.get('').then(response => {
 
                     let now = new Date();
-                    let orders = response.data.orders.filter(function(line) {
-                        if (Date.parse(line.date_end) < now.getTime() && !line.comment.match(/(done)|(сделан)|(заверш)/iu)) {
+                    let orders = response.data.orders.filter(line => {
+                        if (Date.parse(line.date_end) < now.getTime() && !this.isDone(line)) {
                             return line;
                         }
 
@@ -204,7 +206,6 @@
                 })
             },
             serchByDate: function() {
-
 
                 axios.get('').then(response => {
                     let input = document.getElementById('searchByDateInput');
@@ -232,7 +233,6 @@
                     console.log(error);
                     alert("Error, check console");
                 })
-
             }
 
         }
