@@ -2,28 +2,34 @@
 
 <div class="container" id="orderAdminApp">
 
-    <h1>Мой календарь: расписание</h1>
-
+    <br>
+    <h2>Мой календарь: расписание</h2>
 
     <div class="row">
         <div class="col-md-12" v-cloak v-if="!order">
-            <div class="form-inline">
-                <div class="btn-group" role="group" aria-label="Basic example">
 
-                    <button type="button" class="btn btn-outline-success" v-on:click="all()">Все</button>
-                    <button type="button" class="btn btn-outline-success" v-on:click="overdue()">Просроченные</button>
-                    <button type="button" class="btn btn-outline-success" v-on:click="current()">Текущие</button>
-                    <button type="button" class="btn btn-outline-success" v-on:click="done()">Выполненные</button>
-
-                </div>
-
-                <div class="form-group mx-sm-3 mb-2">
-                    <input type="date" id="searchByDateInput" class="form-control">
-                </div>
-                <button type="button" class="btn btn-success mb-2" v-on:click="serchByDate()">Найти по дате</button>
-
+            <div class="form-inline d-flex justify-content-end">
+                <input type="date" id="searchByDateInput" class="form-control mr-1">
+                <button type="button" class="btn btn-success" v-on:click="serchByDate()">Найти по дате</button>
 
             </div>
+
+            <ul class="nav nav-tabs">
+                <li class="nav-item ">
+                    <button type="button" class="btn btn-light" v-on:click="all()">Все</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-light" v-on:click="overdue()">Просроченные</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-light" v-on:click="current()">Текущие</button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-light" v-on:click="done()">Выполненные</button>
+                </li>
+            </ul>
+
+
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
@@ -39,15 +45,15 @@
                 </thead>
                 <tbody>
                     <tr v-for="order in orders" v-bind:class="{'text-muted': order.deleting}">
-                        <td>{{ order.id }}</td>
+                        <td class="align-middle">{{ order.id }}</td>
                         <td><button class="btn btn-link" v-on:click="edit(order)">{{order.subject}}</button></td>
-                        <td>{{ order.type }}</td>
-                        <td>{{ order.place }}</td>
-                        <td>{{ order.date_start }}</td>
-                        <td>{{ order.date_end }}</td>
-                        <td>{{ order.comment }}</td>
+                        <td class="align-middle">{{ order.type }}</td>
+                        <td class="align-middle">{{ order.place }}</td>
+                        <td class="align-middle">{{ order.date_start }}</td>
+                        <td class="align-middle">{{ order.date_end }}</td>
+                        <td class="align-middle">{{ order.comment }}</td>
                         <td>
-                            <button class="btn btn-xs btn-danger" v-on:click="del(order)">delete</button>
+                            <button class="btn btn-outline-danger btn-sm" v-on:click="del(order)">удалить</button>
                         </td>
                     </tr>
                 </tbody>
@@ -55,7 +61,7 @@
         </div>
 
         <div class="col-md-6" v-if="order">
-            <button class="btn btn-default" v-on:click="showList">Вернуться к списку</button>
+            <button class="btn btn-outline-success" v-on:click="showList">Вернуться к списку</button>
             <hr>
 
             <div class="alert alert-success" v-cloak v-if="message">{{ message }}</div>

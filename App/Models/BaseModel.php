@@ -51,7 +51,7 @@ abstract class BaseModel {
                 $set[] = '`' . $attribute . '` = :' . $attribute;
             }
 
-            $sql = static::get_pdo()->prepare('UPDATE `' . static::$table . '` SET ' . implode(', ', $set) . ') WHERE id = :id LIMIT 1;');
+            $sql = static::get_pdo()->prepare('UPDATE `' . static::$table . '` SET ' . implode(', ', $set) . ' WHERE id = :id LIMIT 1;');
 
             $data = [];
 

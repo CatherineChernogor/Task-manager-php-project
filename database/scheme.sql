@@ -8,6 +8,4 @@ CREATE TABLE `orders` (
     `comment` VARCHAR(255),
     PRIMARY KEY (`id`)
 )
-COLLATE='utf8_general_ci'
-ENGINE=InnoDB
-;
+COLLATE='utf8_general_ci' ENGINE=InnoDB;
