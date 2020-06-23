@@ -46,7 +46,7 @@
                 <tbody>
                     <tr v-for="order in orders" v-bind:class="{'text-muted': order.deleting}">
                         <td class="align-middle">{{ order.id }}</td>
-                        <td><button class="btn btn-link" v-on:click="isDone(order)">{{order.subject}}</button></td>
+                        <td><button class="btn btn-link" v-on:click="edit(order)">{{order.subject}}</button></td>
                         <td class="align-middle">{{ order.type }}</td>
                         <td class="align-middle">{{ order.place }}</td>
                         <td class="align-middle">{{ order.date_start }}</td>
