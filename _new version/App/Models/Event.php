@@ -68,7 +68,6 @@ class Event extends BaseModel
         return !$this->has_errors();
     }
 
-
     public static function get_all_pending()
     {
         $sql = static::get_pdo()->prepare('SELECT * FROM `' . static::$table . '` WHERE `status`= :status ORDER BY `date_end` desc;');

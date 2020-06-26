@@ -21,11 +21,11 @@ if (getenv('REQUEST_METHOD') === 'POST') {
         header('Location: /schedule.php');
         exit;
     }
-
 } else if (isset($_GET['updated_id'])) {
 
     $id = $_GET['updated_id'];
-    $event = Event::get_by_id($id);
+    header('HTTP/1.1');
+    header('Location: /index.php/?updated_id=' . $id);
 } else if (isset($_GET['deleted_id'])) {
 
     $id = $_GET['deleted_id'];

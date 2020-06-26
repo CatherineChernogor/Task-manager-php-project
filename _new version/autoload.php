@@ -17,7 +17,8 @@ function array_get($array, $key, $default = '')
 function formatLocalTime($time)
 {
     $time = strtotime($time);
-    return date('Y-m-d\Th:i:s', $time);
+    if (!empty($time))
+        return date('Y-m-d\Th:i:s', $time);
 }
 
 function get_cur_status()

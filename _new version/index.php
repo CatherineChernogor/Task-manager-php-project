@@ -14,6 +14,10 @@ if (getenv('REQUEST_METHOD') === 'POST') {
         header('Location: /');
         exit;
     }
-} 
+} else if (isset($_GET['updated_id'])) {
 
+    $id = $_GET['updated_id'];
+    $event = Event::get_by_id($id);
+
+}
 include("views/template_f.php");

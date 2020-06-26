@@ -11,6 +11,10 @@
             <input type="hidden" name="id" value="<?= $event->id ?>">
         <?php endif ?>
 
+        <?php if (!$event->is_new()) : ?>
+            <input type="hidden" name="status" value="<?= $event->status ?>">
+        <?php endif ?>
+
 
         <div class="form-group">
             <span class="text-danger text-sm-left"><?= $event->get_error('subject') ?></span>
@@ -31,7 +35,7 @@
                 </div>
                 <select class="custom-select" name="type">
                     <?php foreach ($event->list_types() as $type => $typeName) : ?>
-                        <option value="<?= $type ?>" <?= $task->type === $type ? 'selected' : '' ?>><?= htmlspecialchars($typeName) ?></option>
+                        <option value="<?= $type ?>" <?= $event->type === $type ? 'selected' : '' ?>><?= htmlspecialchars($typeName) ?></option>
                     <?php endforeach ?>
                 </select>
             </div>
@@ -84,7 +88,7 @@
                 <button class="btn btn-primary" type="submit">Отправить</button>
             <?php else : ?>
                 <button class="btn btn-primary" type="submit">Изменить</button>
-                <a href="/">Отмена</a>
+                <a href="/schedule.php" class="btn btn-outline-primary ml-2">Отмена</a>
             <?php endif ?>
         </div>
 
