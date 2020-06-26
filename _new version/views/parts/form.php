@@ -5,7 +5,7 @@
         <div class="h3">Отредактировать задачу</div>
     <?php endif ?>
 
-    <form method="POST" action="">
+    <form method="POST" action="/index.php">
 
         <?php if (!$event->is_new()) : ?>
             <input type="hidden" name="id" value="<?= $event->id ?>">

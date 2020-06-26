@@ -14,20 +14,6 @@ if (getenv('REQUEST_METHOD') === 'POST') {
         header('Location: /');
         exit;
     }
-} else if (isset($_GET['updated_id'])) {
+} 
 
-    $id = $_GET['updated_id'];
-    $event = Event::get_by_id($id);
-} else if (isset($_GET['deleted_id'])) {
-
-    $id = $_GET['deleted_id'];
-    $event = Event::delete_by_id($id);
-    header('HTTP/1.1');
-    header('Location: /');
-    exit;
-}
-
-
-$events = Event::get_all();
-
-include("views/template.php");
+include("views/template_f.php");

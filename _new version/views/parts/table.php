@@ -6,24 +6,24 @@
             <nav>
                 <div>
                     <div class="form-inline d-flex justify-content-end">
-                        <input type="date" class="form-control mr-1">
-                        <button type="button" class="btn btn-success">Найти по
-                            дате</button>
-
+                        <form method="POST" action="/schedule.php">
+                            <input type="date" class="form-control mr-1">
+                            <button type="button" class="btn btn-success">Найти по дате</button>
+                        </form>
                     </div>
 
                     <ul class="nav nav-tabs">
                         <li class="nav-item ">
-                            <button type="button" class="btn btn-light">Все</button>
+                            <a href="?status=all" class="nav-link <?= get_cur_status() === 'all' ? 'active' : '' ?>">Все</a>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-light">Просроченные</button>
+                            <a href="?status=failed" class="nav-link <?= get_cur_status() === 'failed' ? 'active' : '' ?>">Просроченные</a>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-light">Текущие</button>
+                            <a href="?status=pending" class="nav-link <?= get_cur_status() === 'pending' ? 'active' : '' ?>">Текущие</a>
                         </li>
                         <li class="nav-item">
-                            <button type="button" class="btn btn-light">Выполненные</button>
+                            <a href="?status=done" class="nav-link <?= get_cur_status() === 'done' ? 'active' : '' ?>">Выполненные</a>
                         </li>
                     </ul>
 
@@ -33,7 +33,7 @@
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Статус</th>
                         <th>Тема</th>
                         <th>Тип</th>
                         <th>Место</th>
@@ -47,7 +47,7 @@
                     <?php foreach ($events as $event) : ?>
                         <tr>
                             <td class="align-middle">
-                                <form method='POST' action="/makedone.php">
+                                <form method='POST' action="/schedule.php">
                                     <input type='hidden' name='id' value="<?= $event->id ?>">
                                     <input type='checkbox' <?= $event->is_done() ? 'checked' : '' ?> name='checked' value="<?= $event->status ?>" onchange="this.form.submit()">
                                 </form>
@@ -56,15 +56,9 @@
                             <td class="align-middle"><?= $event->get_texed_type() ?></td>
                             <td class="align-middle"><?= $event->place ?></td>
                             <td class="align-middle"><?= $event->date_start ?></td>
-                            <td class="align-middle"><?= $event->date_end ?></td>
+                            <td class="align-middle <?= $event->is_failed() ? 'text-danger' : '' ?>"><?= $event->date_end ?></td>
                             <td class="align-middle"><?= $event->comment ?></td>
-                            <td>
-                                <button class="btn btn-outline-danger btn-sm">
-                                    <a href="?deleted_id=<?= $event->id ?>" class="nav-link">
-                                        delete
-                                    </a>
-                                </button>
-                            </td>
+                            <td><a href="?deleted_id=<?= $event->id ?>" class="nav-link btn btn-outline-danger">удалить</a></td>
                         </tr>
                     <?php endforeach ?>
                 </tbody>

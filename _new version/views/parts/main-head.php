@@ -17,6 +17,11 @@
             box-sizing: border-box;
         }
 
+        html,
+        body {
+            height: 100%;
+        }
+
         .main-page {
             max-width: 1200px;
             flex-direction: column;
@@ -31,9 +36,25 @@
         .jumbotron>p {
             margin: 0;
         }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+        }
+
+        .content {
+            flex: 1 0 auto;
+        }
+
+        .footer {
+            flex: 0 0 auto;
+        }
     </style>
 </head>
 
 <body>
-    <header><?php include("header.php") ?></header>
-    <main>
+    <div class="wrapper">
+        <div class="content">
+            <header><?php include("header.php") ?></header>
+            <main>

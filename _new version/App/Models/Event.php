@@ -15,7 +15,7 @@ class Event extends BaseModel
 
 
     public $id;
-    public $status;
+    public $status = 0;
     public $subject;
     public $type;
     public $place;
@@ -27,7 +27,7 @@ class Event extends BaseModel
     protected static $table = 'events';
 
     protected static $attributes = [
-        
+
         'status',
         'subject',
         'type',
@@ -71,7 +71,21 @@ class Event extends BaseModel
 
     public static function get_all_pending()
     {
-        $sql = static::get_pdo()->prepare('SELECT * FROM `' . static::$table . '` WHERE `status`= :status;');
+        $sql = static::get_pdo()->prepare('SELECT * FROM `' . static::$table . '` WHERE `status`= :status ORDER BY `date_end` desc;');
+        $sql->execute(['status' => static::STATUS_PENDING,]);
+
+        $objects = [];
+
+        while ($object = $sql->fetchObject(static::class)) {
+            $objects[] = $object;
+        }
+
+        return $objects;
+    }
+
+    public static function get_all_failed()
+    {
+        $sql = static::get_pdo()->prepare('SELECT * FROM `' . static::$table . '` WHERE `status`= :status and `date_end` < NOW() ORDER BY `date_end` desc;');
         $sql->execute(['status' => static::STATUS_PENDING,]);
 
         $objects = [];
@@ -84,7 +98,7 @@ class Event extends BaseModel
     }
     public static function get_all_done()
     {
-        $sql = static::get_pdo()->prepare('SELECT * FROM `' . static::$table . '` WHERE `status`= :status;');
+        $sql = static::get_pdo()->prepare('SELECT * FROM `' . static::$table . '` WHERE `status`= :status  ORDER BY `date_end` desc;');
         $sql->execute(['status' => static::STATUS_DONE,]);
 
         $objects = [];
@@ -121,8 +135,15 @@ class Event extends BaseModel
         return '-';
     }
 
-    public function is_done(){
+    public function is_done()
+    {
 
         return $this->status == static::STATUS_DONE;
+    }
+
+    public function is_failed()
+    {
+        $time = strtotime($this->date_end);
+        return $this->status == static::STATUS_PENDING && $time < time();
     }
 }
