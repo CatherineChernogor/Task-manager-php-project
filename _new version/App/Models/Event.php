@@ -108,6 +108,21 @@ class Event extends BaseModel
 
         return $objects;
     }
+    public static function get_by_date($date_end)
+    {
+        $sql = static::get_pdo()->prepare(
+            'SELECT * FROM `' . static::$table . '` 
+            WHERE DATE(`date_end`) = :date_end ;'
+        );
+        $sql->execute(['date_end' => $date_end]);
+        $objects = [];
+
+        while ($object = $sql->fetchObject(static::class)) {
+            $objects[] = $object;
+        }
+
+        return $objects;
+    }
 
     public function set()
     {

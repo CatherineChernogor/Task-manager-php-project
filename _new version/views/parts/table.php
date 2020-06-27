@@ -7,8 +7,8 @@
                 <div>
                     <div class="form-inline d-flex justify-content-end">
                         <form method="POST" action="/schedule.php">
-                            <input type="date" class="form-control mr-1">
-                            <button type="button" class="btn btn-success">Найти по дате</button>
+                            <input type="date" name="date" class="form-control mr-1">
+                            <button type="submit" class="btn btn-success">Найти по дате</button>
                         </form>
                     </div>
 

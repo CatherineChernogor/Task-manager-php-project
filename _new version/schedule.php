@@ -5,7 +5,7 @@ use App\Models\Event;
 
 $event = new Event;
 
-if (getenv('REQUEST_METHOD') === 'POST') {
+if (getenv('REQUEST_METHOD') === 'POST' && isset($_POST['id'])) {
 
     $event = Event::get_by_id($_POST['id']);
     if (isset($_POST['checked'])) {
@@ -15,6 +15,7 @@ if (getenv('REQUEST_METHOD') === 'POST') {
 
         $event->status = Event::STATUS_PENDING;
     }
+
 
     if ($event->set()) {
         header('HTTP/1.1');
@@ -56,7 +57,11 @@ if (isset($_GET['status'])) {
             $events = Event::get_all();
             break;
     }
+} else if (isset($_POST['date'])) {
+    $events = Event::get_by_date($_POST['date']);
 } else {
     $events = Event::get_all();
 }
+
+
 include("views/template_s.php");
