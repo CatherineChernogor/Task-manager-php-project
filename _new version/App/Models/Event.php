@@ -126,13 +126,7 @@ class Event extends BaseModel
 
     public function set()
     {
-        if ($this->is_new()) {
-
-            $this->save();
-        } else {
-
-            $this->update();
-        }
+        return $this->is_new() ? $this->save() : $this->update();
     }
 
     public function is_new()
@@ -143,15 +137,11 @@ class Event extends BaseModel
     public function get_texed_type()
     {
         $types = static::list_types();
-        if (isset($types[$this->type])) {
-            return $types[$this->type];
-        }
-        return '-';
+        return $types[$this->type] ?? '-';
     }
 
     public function is_done()
     {
-
         return $this->status == static::STATUS_DONE;
     }
 

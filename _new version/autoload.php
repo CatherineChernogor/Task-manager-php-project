@@ -25,3 +25,4 @@ function get_cur_status()
 {
     return isset($_GET['status']) ? $_GET['status'] : 'all';
 }
+session_start();

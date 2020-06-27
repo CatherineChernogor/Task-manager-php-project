@@ -18,7 +18,7 @@
 
         <div class="form-group">
             <span class="text-danger text-sm-left"><?= $event->get_error('subject') ?></span>
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 w-75">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Тема</span>
                 </div>
@@ -29,7 +29,7 @@
 
         <div class="form-group">
             <span class="text-danger text-sm-left"><?= $event->get_error('type') ?></span>
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 w-75">
                 <div class="input-group-prepend">
                     <label class="input-group-text">Тип</label>
                 </div>
@@ -42,7 +42,7 @@
         </div>
 
 
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 w-75">
             <div class="input-group-prepend">
                 <span class="input-group-text">Место</span>
             </div>
@@ -53,7 +53,7 @@
         <div class="form-group">
             <span class="text-danger text-sm-left"><?= $event->get_error('date_start') ?></span>
 
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 w-75">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Дата начала</span>
                 </div>
@@ -65,7 +65,7 @@
         <div class="form-group">
             <span class="text-danger text-sm-left"><?= $event->get_error('date_end') ?></span>
 
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 w-75">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Дата конца</span>
                 </div>
@@ -75,7 +75,7 @@
         </div>
 
 
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 w-75">
             <div class="input-group-prepend">
                 <span class="input-group-text">Комментарий</span>
             </div>
@@ -83,7 +83,7 @@
         </div>
 
 
-        <div class="form-group mb-3 d-flex justify-content-end">
+        <div class="form-group mb-3 w-75 d-flex justify-content-end">
             <?php if ($event->is_new()) : ?>
                 <button class="btn btn-primary" type="submit">Отправить</button>
             <?php else : ?>
